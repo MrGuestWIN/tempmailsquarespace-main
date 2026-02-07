@@ -1,0 +1,82 @@
+Buatkan saya aplikasi Temp Mail berbasis email forwarding (tanpa SMTP server sendiri).
+
+Gunakan konsep:
+Catch-all forwarding (*@domain) → 1 Gmail inbox → backend fetch → tampil realtime di website.
+
+Stack:
+- Node.js + Express
+- React + Vite
+- SQLite
+- socket.io realtime
+- IMAP (imap-simple) untuk baca Gmail
+- mailparser untuk parsing email
+
+Sistem:
+
+1. Email Forwarding
+- Semua email *@domain.com diforward ke 1 Gmail
+- Backend connect ke Gmail via IMAP
+- Polling/IDLE tiap 2 detik
+
+2. Parsing
+- Ambil field:
+  to
+  from
+  subject
+  text
+  html
+  attachments
+- Extract username dari "to"
+  contoh:
+  bakso@domain.com → inbox bakso
+
+3. Inbox
+- Session based
+- Realtime websocket
+- List email
+- View html/text
+- attachment download
+- delete email
+
+4. Custom username
+- User bisa isi nama bebas
+- validasi unik
+- format username@domain
+
+5. Multi domain
+- admin add/remove domain
+- dropdown pilih domain
+
+6. Auto expired
+- inbox 20 menit
+- cron cleanup
+
+7. Admin panel
+
+8. UI
+Neo Brutalism theme
+orange black white
+border tebal
+boxy brutal design
+
+9. Struktur:
+backend/
+  imapService.js
+  parserService.js
+  socket.js
+  routes/
+frontend/
+
+10. Tambahkan:
+- README
+- .env.example
+- docker-compose
+
+.env harus support:
+GMAIL_USER
+GMAIL_PASS (app password)
+IMAP_HOST=imap.gmail.com
+IMAP_PORT=993
+
+Output:
+Generate full project files lengkap production-ready.

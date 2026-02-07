@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  tempmail:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - GMAIL_USER=${GMAIL_USER}
+      - GMAIL_PASS=${GMAIL_PASS}
+      - IMAP_HOST=${IMAP_HOST:-imap.gmail.com}
+      - IMAP_PORT=${IMAP_PORT:-993}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - INBOX_EXPIRY_MINUTES=${INBOX_EXPIRY_MINUTES:-20}
+      - POLLING_INTERVAL_MS=${POLLING_INTERVAL_MS:-2000}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3001}
+    volumes:
+      - tempmail-data:/app/backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  tempmail-data:
